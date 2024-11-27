@@ -16,13 +16,16 @@ import { Database } from '../db'
 export abstract class FirehoseSubscriptionBase {
   public sub: Subscription<RepoEvent>
   public primaryDids: Set<string>
+  public primaryTokens: Set<string>
 
   constructor(
     public db: Database,
     public service: string,
     public _primaryDids: Set<string>,
+    public _primaryTokens: Set<string>,
   ) {
     this.primaryDids = _primaryDids
+    this.primaryTokens = _primaryTokens
     this.sub = new Subscription({
       service: service,
       method: ids.ComAtprotoSyncSubscribeRepos,

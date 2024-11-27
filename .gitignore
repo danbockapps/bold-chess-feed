@@ -134,4 +134,4 @@ dist
 *.iml
 
 handles.txt
-resolved_dids.txt
+primary_dids.txt

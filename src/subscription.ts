@@ -11,7 +11,17 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     const ops = await getOpsByType(evt)
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
-      .filter((create) => this.primaryDids.has(create.author))
+      .filter((create) => {
+        if (this.primaryDids.has(create.author)) return true
+
+        const postTokens = create.record.text.split(/[\s,!?;.]+/)
+
+        const hasPrimaryToken = postTokens.some((token) =>
+          this.primaryTokens.has(token),
+        )
+
+        return hasPrimaryToken
+      })
       .map((create) => {
         console.log('New post')
         console.log(create)

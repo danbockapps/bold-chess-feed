@@ -9,7 +9,8 @@ const run = async () => {
   const serviceDid =
     maybeStr(process.env.FEEDGEN_SERVICE_DID) ?? `did:web:${hostname}`
 
-  const primaryDids = await readDIDsFromFile('src/util/resolved_dids.txt')
+  const primaryDids = await readListFile('src/util/primary_dids.txt')
+  const primaryTokens = await readListFile('src/util/primary_tokens.txt')
 
   const server = FeedGenerator.create({
     port: maybeInt(process.env.FEEDGEN_PORT) ?? 3000,
@@ -25,6 +26,7 @@ const run = async () => {
     hostname,
     serviceDid,
     primaryDids,
+    primaryTokens,
   })
   await server.start()
   console.log(
@@ -32,8 +34,7 @@ const run = async () => {
   )
 }
 
-// Function to read DIDs from the file
-async function readDIDsFromFile(filePath: string): Promise<Set<string>> {
+async function readListFile(filePath: string): Promise<Set<string>> {
   const dids = new Set<string>()
   const fileStream = fs.createReadStream(filePath)
   const rl = readline.createInterface({

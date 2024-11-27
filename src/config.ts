@@ -17,4 +17,5 @@ export type Config = {
   publisherDid: string
   subscriptionReconnectDelay: number
   primaryDids: Set<string>
+  primaryTokens: Set<string>
 }

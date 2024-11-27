@@ -37,6 +37,7 @@ export class FeedGenerator {
       db,
       cfg.subscriptionEndpoint,
       cfg.primaryDids,
+      cfg.primaryTokens,
     )
 
     const didCache = new MemoryCache()
